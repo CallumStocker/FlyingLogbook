@@ -14,6 +14,8 @@ namespace FlyingLogbook.DataPersistence
         public LogbookContext() : base("SQLiteConnection") { }
 
         public DbSet<Trip> Trips { get; set; }
+        public DbSet<Pilot> Pilots { get; set; }
+        public DbSet<Airfield> Airfields { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
