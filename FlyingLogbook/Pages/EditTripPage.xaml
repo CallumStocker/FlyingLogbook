@@ -235,6 +235,7 @@
                 Margin="5"
                 Text="{Binding DayHoursBinding, NotifyOnValidationError=True}"
                 PreviewTextInput="NumericTextBoxPreviewInput"
+                DataObject.Pasting="NumericTextBoxPasting"
                 GotKeyboardFocus="TextBox_GotKeyboardFocus"
                 GotMouseCapture="TextBox_GotMouseCapture">
                 <Validation.ErrorTemplate>
@@ -268,6 +269,7 @@
                 Margin="5"
                 Text="{Binding NightHoursBinding, NotifyOnValidationError=True}"
                 PreviewTextInput="NumericTextBoxPreviewInput"
+                DataObject.Pasting="NumericTextBoxPasting"
                 GotKeyboardFocus="TextBox_GotKeyboardFocus"
                 GotMouseCapture="TextBox_GotMouseCapture">
                 <Validation.ErrorTemplate>

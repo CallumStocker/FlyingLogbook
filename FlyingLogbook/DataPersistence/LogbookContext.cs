@@ -16,11 +16,34 @@ namespace FlyingLogbook.DataPersistence
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Pilot> Pilots { get; set; }
         public DbSet<Airfield> Airfields { get; set; }
+        public DbSet<ProgramSetting> Settings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<LogbookContext>(modelBuilder);
             Database.SetInitializer(sqliteConnectionInitializer);
         }
+
+        #region Helper Methods
+
+        public ProgramSetting LoadOrAddSetting(string settingKey, int settingNumber = 0)
+        {
+            var setting = this.Settings.SingleOrDefault(s => s.SettingKey == settingKey && s.SettingNumber == settingNumber);
+
+            if (setting == null)
+            {
+                setting = new ProgramSetting()
+                {
+                    SettingKey = settingKey,
+                    SettingNumber = settingNumber
+                };
+
+                this.Settings.Add(setting);
+            }
+
+            return setting;
+        }
+
+        #endregion
     }
 }

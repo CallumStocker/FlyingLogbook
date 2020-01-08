@@ -2,6 +2,7 @@
 using FlyingLogbook.DataObjects;
 using FlyingLogbook.DataPersistence;
 using FlyingLogbook.Enums;
+using FlyingLogbook.Utilities;
 using FlyingLogbook.WPFUtilities;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,32 @@ namespace FlyingLogbook.Pages.ViewModels
             if (this.Trip.Pilots.Count == 0)
             {
                 this.AddNewPilot();
+
+                using (var databaseContext = new LogbookContext())
+                {
+                    var rankSetting = databaseContext.Settings.SingleOrDefault(s => s.SettingKey == Constants.UserRankSettingKey);
+
+                    if (rankSetting != null)
+                    {
+                        var userRank = (PilotPositionEnum)rankSetting.SettingValue;
+
+                        switch (userRank)
+                        {
+                            case PilotPositionEnum.Captain:
+                            case PilotPositionEnum.FirstOfficer:
+                                var pilot = this.Trip.Pilots.Where(p => p.PilotPosition == userRank).FirstOrDefault()?.Pilot;
+
+                                if (pilot != null)
+                                {
+                                    pilot.Name = "Self";
+                                }
+                                break;
+
+                            default:
+                                break;                                
+                        }
+                    }
+                }
             }
 
             this.SkipPilotFocus = this.Trip.Pilots.Count;

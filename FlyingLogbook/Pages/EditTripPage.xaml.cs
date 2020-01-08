@@ -40,6 +40,7 @@ namespace FlyingLogbook.Pages
 
         public EditTripPage(Trip trip, MainWindow ownerWindow)
         {
+            this.OwnerWindow = ownerWindow;
             this.ViewModel = new EditTripPageViewModel(trip, ownerWindow);
             this.DataContext = this.ViewModel;
 

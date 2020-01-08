@@ -1,6 +1,7 @@
 ﻿using FlyingLogbook.AbstractClasses;
 using FlyingLogbook.DataObjects;
 using FlyingLogbook.DataPersistence;
+using FlyingLogbook.Utilities;
 using FlyingLogbook.WPFUtilities;
 using Microsoft.Win32;
 using System;
@@ -83,6 +84,77 @@ namespace FlyingLogbook.Pages.ViewModels
             }
         }
 
+        public double HoursThisYear
+        {
+            get
+            {
+                if (this.DatabaseContext.Settings.Any(s => s.SettingKey == Constants.YearEndMonthSettingKey))
+                {
+                    var month = this.DatabaseContext.Settings.SingleOrDefault(s => s.SettingKey == Constants.YearEndMonthSettingKey).SettingValue;
+                    var day = this.DatabaseContext.Settings.SingleOrDefault(s => s.SettingKey == Constants.YearEndDaySettingKey).SettingValue;
+
+                    int year;
+
+                    // See if we've passed the year end day in the current year, if not move back to the previous year
+                    if (DateTime.Now.Month > month && DateTime.Now.Day > day)
+                    {
+                        year = DateTime.Now.Year;
+                    }
+                    else
+                    {
+                        year = DateTime.Now.Year - 1;
+                    }
+
+                    var yearStart = new DateTime(year, month, day);
+
+                    var decimalSum = this.DatabaseContext.Trips
+                        .Where(t => t.Date >= yearStart)
+                        .ToList() // Makes this null safe
+                        .Sum(t => t.DayHoursDouble + t.NightHoursDouble);
+
+                    return decimalSum / 100 * 60;
+                }
+                else
+                {
+                    return GetHoursFromLastXDays(365);
+                }
+            }
+        }
+
+        public DateTime? RecencyDate
+        {
+            get
+            {
+                DateTime? recencyDate = null;
+
+                var recencyCount = this.DatabaseContext.Settings.Count(s => s.SettingKey == Constants.RecencyDayCountSettingKey);
+
+                // We want the last date based on all saved settings, as this will be the the most pressing recency to satisfy
+                for (int recencyCounter = 0; recencyCounter < recencyCount; recencyCounter++)
+                {
+                    var recencyDays = this.DatabaseContext.Settings.Single(s => s.SettingKey == Constants.RecencyDayCountSettingKey && s.SettingNumber == recencyCounter).SettingValue;
+                    var recencyLandings = this.DatabaseContext.Settings.Single(s => s.SettingKey == Constants.RecencyLandingCountSettingKey && s.SettingNumber == recencyCounter).SettingValue;
+
+                    // Count back through the landed trips until we reach the nth landing, where n is the saved value for the landing count setting
+                    var oldestValidLanding = this.DatabaseContext.Trips
+                        .Where(t => t.Landed)
+                        .OrderByDescending(t => t.Date)
+                        .Take(recencyLandings)
+                        .ToList()
+                        .Last();
+
+                    var validToDate = oldestValidLanding.Date.AddDays(recencyDays);
+
+                    if (!recencyDate.HasValue || validToDate > recencyDate)
+                    {
+                        recencyDate = validToDate;
+                    }
+                }
+
+                return recencyDate;
+            }
+        }
+
         #endregion
 
         #region Public Methods
@@ -136,13 +208,14 @@ namespace FlyingLogbook.Pages.ViewModels
         public void SetupCommands()
         {
             this.AddNewEntry = new BasicCommand(this.AddNew);
-            this.ViewEditEntry = new BasicCommand((object o) => Debug.WriteLine("Hello"));
+            this.OpenSettings = new BasicCommand(this.OpenSettingsPage);
             this.Import = new BasicCommand(this.RunImport);
             this.Exit = new BasicCommand(this.ExitProgram);
         }
         
         public BasicCommand AddNewEntry { get; protected set; }
         public BasicCommand ViewEditEntry { get; protected set; }
+        public BasicCommand OpenSettings { get; protected set; }
         public BasicCommand Import { get; protected set; }
         public BasicCommand Exit { get; protected set; }
 
@@ -210,6 +283,13 @@ namespace FlyingLogbook.Pages.ViewModels
                         MessageBoxImage.Error);
                 }
             }
+        }
+
+        protected void OpenSettingsPage(object parameter)
+        {
+            var settingsPage = new SettingsPage(this.OwnerWindow);
+
+            this.OwnerWindow.ViewModel.SetPage(settingsPage);
         }
 
         protected void ExitProgram(object parameter)

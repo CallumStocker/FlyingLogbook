@@ -167,7 +167,8 @@
                     Grid.Row="4" 
                     Grid.Column="1"  
                     Margin="5,5,25,5"
-                    IsReadOnly="True" />
+                    IsReadOnly="True"
+                    Text="{Binding HoursThisYear, Mode=OneWay}" />
 
                 <Label 
                     Grid.Row="5" 
@@ -177,7 +178,8 @@
                     Grid.Row="5" 
                     Grid.Column="1"  
                     Margin="5,5,25,5"
-                    IsReadOnly="True" />
+                    IsReadOnly="True"
+                    Text="{Binding RecencyDate, Mode=OneWay, StringFormat=dd-MMM-yyyy}" />
             </Grid>
         </Grid>
     </Grid>

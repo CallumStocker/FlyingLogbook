@@ -16,6 +16,8 @@ namespace FlyingLogbook.DataObjects
         
         public string SettingKey { get; set; }
 
+        public int SettingNumber { get; set; }
+
         public int SettingValue { get; set; }
     }
 }
