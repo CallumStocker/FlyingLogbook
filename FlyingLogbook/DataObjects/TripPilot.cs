@@ -12,6 +12,8 @@ namespace FlyingLogbook.DataObjects
     /// </summary>
     public class TripPilot
     {
+        public TripPilot() { }
+
         public TripPilot(Trip trip, Pilot pilot, PilotPositionEnum pilotPosition)
         {
             this.Trip = trip;

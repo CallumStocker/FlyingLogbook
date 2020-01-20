@@ -12,6 +12,8 @@ namespace FlyingLogbook.DataObjects
     /// </summary>
     public class TripAirfield
     {
+        public TripAirfield() { }
+
         public TripAirfield(Trip trip, Airfield airfield, AirfieldDirectionEnum airfieldDirection)
         {
             this.Trip = trip;

@@ -119,6 +119,9 @@
     <Compile Include="Pages\EditTripPage.xaml.cs">
       <DependentUpon>EditTripPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SearchTripsPage.xaml.cs">
+      <DependentUpon>SearchTripsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -126,8 +129,10 @@
       <DependentUpon>StarterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ViewModels\EditTripPageViewModel.cs" />
+    <Compile Include="Pages\ViewModels\SearchTripPageViewModel.cs" />
     <Compile Include="Pages\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Pages\ViewModels\StarterPageViewModel.cs" />
+    <Compile Include="UIDataObjects\UITrip.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="WPFUtilities\BasicCommand.cs" />
     <Page Include="MainWindow.xaml">
@@ -147,6 +152,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\EditTripPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SearchTripsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

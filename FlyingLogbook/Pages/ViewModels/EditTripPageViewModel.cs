@@ -52,7 +52,7 @@ namespace FlyingLogbook.Pages.ViewModels
                                 break;
 
                             default:
-                                break;                                
+                                break;
                         }
                     }
                 }

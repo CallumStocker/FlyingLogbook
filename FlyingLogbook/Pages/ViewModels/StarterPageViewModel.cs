@@ -208,6 +208,7 @@ namespace FlyingLogbook.Pages.ViewModels
         public void SetupCommands()
         {
             this.AddNewEntry = new BasicCommand(this.AddNew);
+            this.ViewEditEntry = new BasicCommand(this.ViewEdit);
             this.OpenSettings = new BasicCommand(this.OpenSettingsPage);
             this.Import = new BasicCommand(this.RunImport);
             this.Exit = new BasicCommand(this.ExitProgram);
@@ -226,6 +227,12 @@ namespace FlyingLogbook.Pages.ViewModels
             var trip = new Trip();
 
             EditTrip(trip);
+        }
+
+        protected void ViewEdit(object parameter)
+        {
+            var searchPage = new SearchTripsPage(this.OwnerWindow);
+            this.OwnerWindow.ViewModel.SetPage(searchPage);
         }
 
         protected void RunImport(object parameter)
