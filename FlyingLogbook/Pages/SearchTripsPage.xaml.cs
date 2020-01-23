@@ -54,5 +54,14 @@ namespace FlyingLogbook.Pages
         }
 
         #endregion
+
+        #region Event Handlers
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.ViewModel.ViewEditSelectedTrip();
+        }
+
+        #endregion
     }
 }

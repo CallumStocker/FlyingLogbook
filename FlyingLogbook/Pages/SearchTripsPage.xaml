@@ -145,9 +145,11 @@
                 Grid.Column="1"
                 AutoGenerateColumns="False" 
                 CanUserAddRows="False" 
-                ItemsSource="{Binding FoundTrips}">
+                MouseDoubleClick="DataGrid_MouseDoubleClick"
+                ItemsSource="{Binding FoundTrips}"
+                SelectedItem="{Binding SelectedTrip}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date, Mode=OneWay, StringFormat=yyyy-MM-dd}" />
                     <DataGridTextColumn Header="Type" Binding="{Binding PlaneType, Mode=OneWay}" />
                     <DataGridTextColumn Header="Reg Number" Binding="{Binding RegNumber, Mode=OneWay}" />
                     <DataGridTextColumn Header="Captain" Binding="{Binding Captain, Mode=OneWay}" />
@@ -156,11 +158,11 @@
                     <DataGridTextColumn Header="FO 3" Binding="{Binding FirstOfficerThree, Mode=OneWay}" />
                     <DataGridTextColumn Header="Dep Airfield" Binding="{Binding DepartureAirfield, Mode=OneWay}" />
                     <DataGridTextColumn Header="Arr Airfield" Binding="{Binding ArrivalAirfield, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Dep Time" Binding="{Binding DepartureTime, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Arr Time" Binding="{Binding ArrivalTime, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Day Hours" Binding="{Binding DayHours, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Night Hours" Binding="{Binding NightHours, Mode=OneWay}" />
-                    <DataGridTextColumn Header="BTRT" Binding="{Binding BTRT, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Dep Time" Binding="{Binding DepartureTime, Mode=OneWay, StringFormat=HH:mm}" />
+                    <DataGridTextColumn Header="Arr Time" Binding="{Binding ArrivalTime, Mode=OneWay, StringFormat=HH:mm}" />
+                    <DataGridTextColumn Header="Day Hours" Binding="{Binding DayHours, Mode=OneWay, StringFormat=hh\\:mm}" />
+                    <DataGridTextColumn Header="Night Hours" Binding="{Binding NightHours, Mode=OneWay, StringFormat=hh\\:mm}" />
+                    <DataGridTextColumn Header="BTRT" Binding="{Binding BTRT, Mode=OneWay, StringFormat=00.00}" />
                     <DataGridCheckBoxColumn Header="Landed" Binding="{Binding Landed, Mode=OneWay}" />
                     <DataGridTextColumn Header="BTRT" Binding="{Binding Remarks, Mode=OneWay}" />
                 </DataGrid.Columns>

@@ -24,7 +24,7 @@ namespace FlyingLogbook.UIDataObjects
 
         #region Properties
 
-        protected Trip DataObject { get; set; }
+        public Trip DataObject { get; set; }
 
         public DateTime Date
         { 

@@ -30,6 +30,13 @@ namespace FlyingLogbook.Pages.ViewModels
 
         #region Public Methods
 
+        public void ViewEditSelectedTrip()
+        {
+            var editPage = new EditTripPage(this.SelectedTrip.DataObject, this.OwnerWindow);
+
+            this.OwnerWindow.ViewModel.SetPage(editPage);
+        }
+
         public void Cleanup()
         {
             this.DatabaseContext.Dispose();
@@ -54,6 +61,8 @@ namespace FlyingLogbook.Pages.ViewModels
         #region Binding Properties
 
         public IEnumerable<UITrip> FoundTrips { get; protected set; }
+
+        public UITrip SelectedTrip { get; set; }
 
         public DateTime? FromDate { get; set; }
 
@@ -80,7 +89,7 @@ namespace FlyingLogbook.Pages.ViewModels
         public void SetupCommands()
         {
             this.SearchCommand = new BasicCommand(this.Search);
-            this.ViewEditCommand = new BasicCommand(this.ViewEdit);
+            this.ViewEditCommand = new BasicCommand(this.ViewEdit, (object param) => this.SelectedTrip != null);
             this.MainMenuCommand = new BasicCommand(this.MainMenu);
         }
 
@@ -115,12 +124,15 @@ namespace FlyingLogbook.Pages.ViewModels
                 .Select(t => new UITrip(t))
                 .ToList();
 
+            this.SelectedTrip = null;
+
             this.NotifyPropertyChanged("FoundTrips");
+            this.NotifyPropertyChanged("SelectedTrip");
         }
 
         protected void ViewEdit(object parameter)
         {
-
+            this.ViewEditSelectedTrip();
         }
 
         protected void MainMenu(object parameter)
