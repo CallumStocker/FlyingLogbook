@@ -107,12 +107,18 @@ namespace FlyingLogbook.Pages.ViewModels
 
                     var yearStart = new DateTime(year, month, day);
 
-                    var decimalSum = this.DatabaseContext.Trips
+                    var tripsThisYear = this.DatabaseContext.Trips
                         .Where(t => t.Date >= yearStart)
-                        .ToList() // Makes this null safe
-                        .Sum(t => t.DayHoursDouble + t.NightHoursDouble);
+                        .ToList();
 
-                    return decimalSum / 100 * 60;
+                    if (tripsThisYear.Any())
+                    {
+                        return SumTrips(tripsThisYear);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
                 else
                 {
@@ -191,14 +197,19 @@ namespace FlyingLogbook.Pages.ViewModels
 
             if (matchingTrips.Any())
             {
-                var decimalSum = matchingTrips.Sum(t => t.DayHoursDouble + t.NightHoursDouble);
-
-                return (int)decimalSum + ((decimalSum - (int)decimalSum) / 100.0 * 60);
+                return SumTrips(matchingTrips);
             }
             else
             {
                 return 0;
             }
+        }
+
+        protected double SumTrips(IEnumerable<Trip> trips)
+        {
+            var decimalSum = trips.Sum(t => t.DayHoursDouble + t.NightHoursDouble);
+
+            return (int)decimalSum + ((decimalSum - (int)decimalSum) / 100.0 * 60);
         }
 
         #endregion

@@ -116,7 +116,7 @@
                                         Width="55"
                                         HorizontalContentAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Content="Landing" />
+                                        Content="Landings" />
                                     <TextBox
                                         Grid.Column="3"
                                         Margin="5,0,5,0"

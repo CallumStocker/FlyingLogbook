@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FlyingLogbook.Pages.ViewModels
 {
@@ -258,6 +259,12 @@ namespace FlyingLogbook.Pages.ViewModels
         protected void Save(object parameter)
         {
             this.SaveSettings();
+
+            MessageBox.Show(
+                this.OwnerWindow,
+                "Settings saved successfully", 
+                "Save Successful", 
+                MessageBoxButton.OK);
         }
 
         protected void MainMenu(object parameter)
